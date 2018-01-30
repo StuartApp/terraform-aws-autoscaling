@@ -4,7 +4,6 @@
 resource "aws_launch_configuration" "this" {
   count = "${var.create_lc}"
 
-  name_prefix                 = "${coalesce(var.lc_name, var.name)}-"
   image_id                    = "${var.image_id}"
   instance_type               = "${var.instance_type}"
   iam_instance_profile        = "${var.iam_instance_profile}"
@@ -32,7 +31,7 @@ resource "aws_launch_configuration" "this" {
 resource "aws_autoscaling_group" "this" {
   count = "${var.create_asg}"
 
-  name_prefix          = "${coalesce(var.asg_name, var.name)}-"
+  name                 = "${coalesce(var.asg_name, var.name)}-${aws_launch_configuration.this.name}"
   launch_configuration = "${var.create_lc ? element(aws_launch_configuration.this.*.name, 0) : var.launch_configuration}"
   vpc_zone_identifier  = ["${var.vpc_zone_identifier}"]
   max_size             = "${var.max_size}"
@@ -60,4 +59,8 @@ resource "aws_autoscaling_group" "this" {
       list(map("key", "Name", "value", var.name, "propagate_at_launch", true)),
       var.tags
    )}"]
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
