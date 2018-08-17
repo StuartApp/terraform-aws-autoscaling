@@ -113,9 +113,9 @@ variable "min_size" {
   description = "The minimum size of the auto scale group"
 }
 
-variable "desired_capacity" {
-  description = "The number of Amazon EC2 instances that should be running in the group"
-}
+# variable "desired_capacity" {
+#   description = "The number of Amazon EC2 instances that should be running in the group"
+# }
 
 variable "vpc_zone_identifier" {
   description = "A list of subnet IDs to launch resources in"
