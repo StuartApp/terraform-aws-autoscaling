@@ -57,7 +57,6 @@ variable "initial_lifecycle_hook_role_arn" {
   type        = string
   default     = ""
 }
-
 variable "recreate_asg_when_lc_changes" {
   description = "Whether to recreate an autoscaling group when launch configuration changes"
   type        = bool
@@ -267,6 +266,7 @@ variable "metrics_granularity" {
 variable "enabled_metrics" {
   description = "A list of metrics to collect. The allowed values are GroupMinSize, GroupMaxSize, GroupDesiredCapacity, GroupInServiceInstances, GroupPendingInstances, GroupStandbyInstances, GroupTerminatingInstances, GroupTotalInstances"
   type        = list(string)
+
   default = [
     "GroupMinSize",
     "GroupMaxSize",
